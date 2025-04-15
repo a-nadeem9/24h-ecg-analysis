@@ -5,13 +5,3 @@ ecg_env/
 __pycache__/
 *.py[cod]
 *.so
-
-# Ignore Windows system files
-#Thumbs.db
-#Desktop.ini
-
-# Ignore VS Code settings (if you use them)
-#.vscode/
-
-# Optionally, ignore the entire ecg_data folder if it contains large files (only if desired)
-# ecg_data/
