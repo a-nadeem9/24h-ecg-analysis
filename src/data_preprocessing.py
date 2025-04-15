@@ -32,10 +32,10 @@ day_data, sleep_data = load_mat_file(file_path)
 day_data_downsampled = downsample_signal(day_data, original_fs=250, target_fs=100)
 sleep_data_downsampled = downsample_signal(sleep_data, original_fs=250, target_fs=100)
 
-#  Print sample counts for verification.
+#  Print smple counts for verification.
 print(f"File: {file_name}")
-print(f"  Day segment: Original samples = {len(day_data)}, Downsampled samples = {len(day_data_downsampled)}")
-print(f"  Sleep segment: Original samples = {len(sleep_data)}, Downsampled samples = {len(sleep_data_downsampled)}")
+print(f"Day segment: Original samples = {len(day_data)}, Downsampled samples = {len(day_data_downsampled)}")
+print(f"Sleep segment: Original samples = {len(sleep_data)}, Downsampled samples = {len(sleep_data_downsampled)}")
 
 # Visualize a short segment (first 2000 samples) of the downsampled day data.
 plt.figure(figsize=(12, 4))
