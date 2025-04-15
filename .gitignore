@@ -1,7 +1,2 @@
 # Ignore the virtual environment directory
 ecg_env/
-
-# Ignore Python cache files
-__pycache__/
-*.py[cod]
-*.so
