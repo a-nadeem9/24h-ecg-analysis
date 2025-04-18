@@ -1,2 +1,4 @@
-# Ignore the virtual environment directory
 ecg_env/
+__pycache__/
+*.py[cod]
+*$py.class
