@@ -1,6 +1,9 @@
 from data_preprocessing import load_mat_file, downsample_ecg
 from visualization import plot_ecg_segment
 from config import file_path
+import matplotlib.pyplot as plt
+import pandas as pd
+from heart_rate_variability_analysis import extract_nn_intervals, compute_hrv
 
 #-------------------
 # Data Preprocessing
@@ -32,6 +35,29 @@ plot_ecg_segment(sleep_data_downsampled, 100, num_samples=2000, label='Downsampl
 # Heart Variability Analysis
 #---------------------------
 
+#R-peak detection 
+nn_day   = extract_nn_intervals(day_data_downsampled,   sampling_rate=100)
+nn_night = extract_nn_intervals(sleep_data_downsampled, sampling_rate=100)
+
+#compute HRV metrics
+sdnn_day,   rmssd_day   = compute_hrv(nn_day)
+sdnn_night, rmssd_night = compute_hrv(nn_night)
+
+# Print the results
+results = pd.DataFrame({
+    "SDNN_ms": [sdnn_day, sdnn_night],
+    "RMSSD_ms": [rmssd_day, rmssd_night]
+}, index=["Day", "Night"])
+
+print("\nHRV Metrics:")
+print(results)
+
+#plot comparison of HRV metrics
+results.plot.bar(rot=0)
+plt.ylabel("ms")
+plt.title("SDNN and RMSSD: Day vs. Night")
+plt.tight_layout()
+plt.show()
 
 #-----------------------
 # Arrhythmia Detection
