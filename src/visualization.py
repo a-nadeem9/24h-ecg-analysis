@@ -19,13 +19,26 @@ def plot_ecg_segment(ecg_data, fs, num_samples=2000, label=''):
     plt.tight_layout()
     plt.show()
 
-def plot_rr_intervals_over_time(rr_intervals, rr_times, label="Segment"):
-    plt.figure(figsize=(12, 4))
-    plt.plot(rr_times, rr_intervals, marker='o', linestyle='-', alpha=0.7)
+def plot_rr_24h(rr_times, rr_intervals, label="Full 24h", anomaly_thresholds=(500, 1200)):
+    plt.figure(figsize=(14, 5))
+
+    # Main RR plot
+    plt.plot(rr_times, rr_intervals, color="steelblue", linewidth=0.6, label="RR Intervals")
+
+    # Optional: clean anomaly markers
+    short_rr = rr_intervals < anomaly_thresholds[0]
+    long_rr = rr_intervals > anomaly_thresholds[1]
+
+    if short_rr.any():
+        plt.scatter(rr_times[short_rr], rr_intervals[short_rr], color="crimson", s=10, label="Short RR (<500 ms)")
+    if long_rr.any():
+        plt.scatter(rr_times[long_rr], rr_intervals[long_rr], color="darkorange", s=10, label="Long RR (>1200 ms)")
+
     plt.title(f"RR Intervals Over Time – {label}")
     plt.xlabel("Time (s)")
     plt.ylabel("RR Interval (ms)")
-    plt.grid(True)
+    plt.grid(True, linestyle="--", linewidth=0.4)
+    plt.legend(loc="upper right")
     plt.tight_layout()
     plt.show()
 
