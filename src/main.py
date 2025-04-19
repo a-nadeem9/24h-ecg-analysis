@@ -3,7 +3,7 @@ from visualization import plot_ecg_segment
 from config import file_path
 import matplotlib.pyplot as plt
 import pandas as pd
-from heart_rate_variability_analysis import extract_nn_intervals, compute_hrv
+from heart_rate_variability_analysis import extract_nn_intervals, compute_hrv, compare_hrv
 
 #-------------------
 # Data Preprocessing
@@ -58,6 +58,9 @@ plt.ylabel("ms")
 plt.title("SDNN and RMSSD: Day vs. Night")
 plt.tight_layout()
 plt.show()
+
+# compare rr-intervals
+compare_hrv(nn_day, nn_night)
 
 #-----------------------
 # Arrhythmia Detection
