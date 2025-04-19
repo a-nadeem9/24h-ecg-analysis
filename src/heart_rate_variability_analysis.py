@@ -11,17 +11,26 @@ Objective: Calculate HRV metrics for daytime and nighttime recordings.
 import neurokit2 as nk
 import numpy as np
 
-
-def extract_nn_intervals(ecg_signal, sampling_rate):
+def extract_nn_intervals(ecg_signal, sampling_rate, return_timestamps=False):
     ecg_cleaned = nk.ecg_clean(ecg_signal, sampling_rate=sampling_rate)
     _, info = nk.ecg_peaks(ecg_cleaned, sampling_rate=sampling_rate)
     rpeaks = info["ECG_R_Peaks"]
+    
+    rpeak_times = np.array(rpeaks) / sampling_rate
+    rr_intervals = np.diff(rpeak_times) * 1000  # ms
+    rr_times = rpeak_times[1:]  # timestamps of RR intervals
 
-    rr_intervals = np.diff(rpeaks) * 1000 / sampling_rate  # ms
+    # Filter out abnormal values
+    mask = (rr_intervals > 300) & (rr_intervals < 2000)
+    rr_clean = rr_intervals[mask]
+    rr_times_clean = rr_times[mask]
 
-    # Remove RR outliers
-    rr_clean = rr_intervals[(rr_intervals > 300) & (rr_intervals < 2000)]
-    return rr_clean
+    if return_timestamps:
+        return rr_clean, rr_times_clean
+    else:
+        return rr_clean
+
+
 
 # Compute SDNN and RMSSD
 def compute_hrv(nn_intervals):
